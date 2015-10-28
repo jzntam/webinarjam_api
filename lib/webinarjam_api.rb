@@ -1,5 +1,28 @@
 require "webinarjam_api/version"
+require "httparty"
 
 module WebinarjamApi
-  # Your code goes here...
+  class Client
+    API_ENDPOINT = "https://app.webinarjam.com/api/v2"
+
+    def initialize(api_key)
+      @api_key = api_key
+    end
+
+    def get_webinars
+      data = { api_key: @api_key }
+      HTTParty.post("#{API_ENDPOINT}/webinars", body: data )
+    end
+
+    def get_webinar(webinar_id)
+      data = { api_key: @api_key, webinar_id: webinar_id }
+      HTTParty.post("#{API_ENDPOINT}/webinar", body: data )
+    end
+
+    def register_person(webinar_id, schedule, lead)
+      data      = { api_key: @api_key, webinar_id: webinar_id, schedule: schedule }
+      lead_data = data.merge(lead)
+      HTTParty.post("#{API_ENDPOINT}/register", body: lead_data )
+    end
+  end
 end
