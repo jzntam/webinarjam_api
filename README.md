@@ -1,8 +1,5 @@
 # WebinarjamApi
-
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/webinarjam_api`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+A simple ruby API wrapper for retrieving webinar data from WebinarJam. Currently WebinarJam's API only supports retrieval of webinars, no registrants. However you can add registrants to a webinar.
 
 ## Installation
 
@@ -22,17 +19,41 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+### Configuration
 
-## Development
+#### Create a client object:
+```ruby
+client = ::WebinarjamApi::Client.new('Your API Key')
+```
+Note: Pass in the API Key as a string, wrap it in quotes.
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+#### Retrieve all your webinars:
+```ruby
+client.get_webinars
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+#### Pass in the 'webinar_id' to retrieve the specific webinar:
+```ruby
+client.get_webinar(webinar_id)
+```
+
+#### Add registrants to the webinar
+Create a registrant, required fields are name and email.
+```ruby
+registrant = {
+  'name' => 'Chico Manzana',
+  'email' => 'chico@manzana.com'
+}
+```
+
+Pass in registrant, along with webinar_id and schedule into the register_person method.
+```ruby
+client.register_person(webinar_id, schedule, registrant)
+```
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/webinarjam_api.
+Bug reports and pull requests are welcome on GitHub at https://github.com/jzntam/webinarjam_api.
 
 
 ## License
